@@ -1,16 +1,24 @@
 import mw from 'midi-writer-js'
-
-console.log('hi')
-
+import R from 'ramda'
+import _ from 'lodash'
 var track = new mw.Track()
+// track.addEvent(new mw.ProgramChangeEvent({ instrument: 1 }))
+let delta = 32
+const offset = 64
+let cursor = 0
+const pitch = 'c4'
 
-// Define an instrument (optional):
-track.addEvent(new mw.ProgramChangeEvent({ instrument: 1 }))
+const note = (startTick, dur) =>
+    track.addEvent(new mw.NoteEvent({ pitch, startTick, duration: 'T' + dur }))
 
-// Add some notes:
-var note = new mw.NoteEvent({ pitch: ['C4', 'D4', 'E4'], duration: '4' })
-track.addEvent(note)
-
-// Generate a data URI
+_.times(4).map(c => {
+    note(offset + cursor, delta)
+    cursor += delta * 4
+})
+_.times(64).map(c => {
+    note(offset + cursor, delta)
+    cursor += delta * 4
+    delta += 8
+})
 var write = new mw.Writer(track)
 write.saveMIDI('out')
