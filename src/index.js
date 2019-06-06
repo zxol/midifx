@@ -2,6 +2,8 @@ import mw from 'midi-writer-js'
 import R from 'ramda'
 import _ from 'lodash'
 var track = new mw.Track()
+track.setTimeSignature(4,4)
+track.setTempo(128)
 // track.addEvent(new mw.ProgramChangeEvent({ instrument: 1 }))
 let delta = 32
 const offset = 64
