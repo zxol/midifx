@@ -5,9 +5,24 @@ import shuffle from '../utils/shuffle'
 
 export default () => {
     console.log('Building midi file')
-    var track = new mw.Track()
-    track.setTimeSignature(4, 4)
-    track.setTempo(128)
+    const newTrack = myData => {
+        const track = new mw.Track()
+        track.setTimeSignature(4, 4)
+        track.setTempo(128)
+        track.setTrackName(myData.name)
+        track.myData = myData
+        return track
+    }
+
+    const chordmap = [1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0]
+
+    let tracks = []
+    _.times(128).map(i => {
+        if (chordmap[i % 12]) {
+            tracks.add(newTrack({ pitch: i, name: i }))
+        }
+    })
+
     const desyncSpeed = 0.4
 
     let kb = _.times(127).map(i => {
