@@ -6,7 +6,7 @@
     "scripts": {
         "build": "babel src --out-dir build",
         "go": "node build/index.js",
-        "start": "npm run build; npm run go"
+        "start": "npm run build && npm run go"
     },
     "author": "",
     "license": "ISC",

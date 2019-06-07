@@ -22,37 +22,39 @@ export default () => {
         duration: 'T' + parseInt(dur)
       })
     )
-  const newCC = (trak, channel, value) => {
-    trak.addEvent(
-      new mw.ControllerChangeEvent({ controllerNumber: channel, controllerValue: value })
-    )
-  }
+  // const newCC = (trak, channel, value) => {
+  //   trak.addEvent(
+  //     new mw.ControllerChangeEvent({ controllerNumber: channel, controllerValue: value })
+  //   )
+  // }
 
   const offset = 64
-  const desyncSpeed = 0.4
+  const desyncSpeed = 0.2
   const chordmap = [1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0]
 
   let tracks = []
-  _.times(128).map(i => {
-    if (chordmap[i % 12]) {
+  shuffle(_.times(128)).map((i, index) => {
+    if (chordmap[index % 12]) {
       const myTrack = newTrack({
-        pitch: i,
-        name: i,
+        pitch: index,
+        name: index,
         width: 32,
         delta: ((i - 64.0) / 127.0) * desyncSpeed,
         cursor: 0
       })
-      newCC(myTrack, 10, parseInt(i))
-      _.times(4).map(i => {
+      // newCC(myTrack, 10, parseInt(i))
+      _.times(32).map(i => {
         newNote(myTrack, myTrack.myData.pitch, offset + myTrack.myData.cursor, myTrack.myData.width)
-        myTrack.cursor += myTrack.width * 4
+        myTrack.myData.cursor += myTrack.myData.width * 4
+
       })
-      _.times(128).map(i => {
+      _.times(256).map(i => {
         newNote(myTrack, myTrack.myData.pitch, offset + myTrack.myData.cursor, myTrack.myData.width)
         myTrack.myData.cursor += myTrack.myData.width * 4
         myTrack.myData.width += myTrack.myData.delta
         if (myTrack.myData.width < 1) myTrack.myData.width = 1
       })
+      newNote(myTrack, 0, 128*4*200, 128)
       tracks.push(myTrack)
     }
   })
