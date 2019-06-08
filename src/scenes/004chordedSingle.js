@@ -35,6 +35,21 @@ export default () => {
   let tracks = []
   let myTrack = newTrack()
 
+  const myOrder = new UInt8Array(32)
+  let recursiveSpaceFill = (arr, count) => {
+    const len = arr.length
+    if (len === 1) {
+      arr[0] = count
+      return true
+    }
+    const midpoint = Math.floor(len / 2)
+    if (!arr[midpoint]) {
+      arr[midpoint] = count++
+      recursiveSpaceFill(arr.subarrray(0, midpoint), count) // doesnt work as wanted.  will fill
+      recursiveSpaceFill(arr.subarrray(midpoint, len), count)
+    }
+  }
+
   _.times(128)
     .reverse()
     .map((i, index) => {
