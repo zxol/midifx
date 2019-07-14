@@ -1,24 +1,25 @@
 {
-    "name": "midifx",
-    "version": "0.0.1",
-    "description": "generate mifi files for my compositions",
-    "main": "index.js",
-    "scripts": {
-        "build": "babel src --out-dir build",
-        "go": "node build/index.js",
-        "start": "npm run build && npm run go"
-    },
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "@babel/polyfill": "^7.4.4",
-        "lodash": "^4.17.11",
-        "midi-writer-js": "^1.7.1",
-        "ramda": "^0.26.1"
-    },
-    "devDependencies": {
-        "@babel/cli": "^7.4.4",
-        "@babel/core": "^7.4.5",
-        "@babel/preset-env": "^7.4.5"
-    }
+  "name": "midifx",
+  "version": "0.0.1",
+  "description": "generate mifi files for my compositions",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel src --out-dir build",
+    "go": "node build/index.js",
+    "start": "npm run build && npm run go"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/polyfill": "^7.4.4",
+    "lodash": "^4.17.14",
+    "mersenne-twister": "^1.1.0",
+    "midi-writer-js": "^1.7.1",
+    "ramda": "^0.26.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.0",
+    "@babel/core": "^7.5.4",
+    "@babel/preset-env": "^7.5.4"
+  }
 }

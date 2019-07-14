@@ -5,7 +5,9 @@ import forth from './scenes/004chordedSingle'
 import fifth from './scenes/005makeWavefolding'
 import sixth from './scenes/006makeharmonics'
 import seventh from './scenes/007additivefun'
-seventh()
+import eighth from './scenes/008harmonicsynth'
+eighth()
+//seventh()
 // sixth()
 // fifth()
 // forth()
