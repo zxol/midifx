@@ -94,7 +94,7 @@ export default function() {
   const header = fs.readFileSync('./assets/header.wav')
   R.times(
     i => synthesizeWaveTable(4, tableWaveCount, partialCount, waveSampleCount, 'cool' + i, header),
-    1
+    40
   )
   //synthesizeWaveTable(4, tableWaveCount, partialCount, waveSampleCount, 'cool', header)
 }
