@@ -94,6 +94,7 @@ export default function() {
   const partialCount = waveSampleCount / 4
   const header = fs.readFileSync('./assets/header.wav')
   R.times(
+<<<<<<< HEAD
     i =>
       synthesizeWaveTable(
         3,
@@ -103,6 +104,9 @@ export default function() {
         'random-spectral-3-' + i,
         header
       ),
+=======
+    i => synthesizeWaveTable(4, tableWaveCount, partialCount, waveSampleCount, 'cool' + i, header),
+>>>>>>> origin
     40
   )
   //synthesizeWaveTable(4, tableWaveCount, partialCount, waveSampleCount, 'cool', header)
