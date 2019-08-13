@@ -2,7 +2,7 @@ import fs from 'fs'
 
 const header = fs.readFileSync('./assets/header.wav')
 
-const writeSerumWavetableFile = function(tableData, fileName = 'test') {
+const writeSerumWavetableFile = function({ tableData, fileName = 'test' }) {
   const waveSampleCount = tableData[0].length
   const outFileBufferArray = [Buffer.from(header)]
   tableData.map((w, v) => {

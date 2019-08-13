@@ -1,16 +1,27 @@
 import R from 'ramda'
+import * as RA from 'ramda-adjunct'
 
-const generateTable = ({ ampMap, phaseMap, wCount, wsCount }) => {
+import normalize from '../utils/normalize'
+import fsin from '../utils/fastsine'
+
+const generateTable = ({ ampMap, phaseMap, tableWaveCount, waveSampleCount }) => {
+  console.log({ tableWaveCount, waveSampleCount })
   return R.times(w => {
     console.log('Wave ' + w + ' started.')
     return normalize(
       R.times(sample => {
+        // console.log(sample)
+        const f = 1.0 / waveSampleCount
         return R.sum(
-          R.map((amp, index) => {
-            return amp * fsin(phaseMap[index] + ((1.0 * sample) / wsCount) * (index + 1))
+          RA.mapIndexed((amp, index) => {
+            // console.log(amp, phaseMap[w])
+            const phase = phaseMap[w][index]
+            return amp * fsin(phase + 1.0 * sample * f * (index + 1))
           }, ampMap[w])
         )
-      }, wsCount)
+      }, waveSampleCount)
     )
-  }, wCount)
+  }, tableWaveCount)
 }
+
+export default generateTable

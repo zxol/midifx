@@ -1,21 +1,29 @@
-import writeSerumWavetableFile from './writeWaveFile'
+import writeSerumWavetableFile from './writewavfile'
+import generateTable from './table'
+import generateKeyframes from './keyframes/random'
+import generateLinearMap from './map'
+import R from 'ramda'
 
 const synthesizeWaveTable = function({
-  numKeyFrames = 3,
+  numKeyFrames = 10,
   tableWaveCount = 256,
   waveSampleCount = 2048,
   partialCount = 0,
   fileName = 'wave'
 }) {
-  partialCount = partialCount === 0 ? waveSampleCount / 4 : partialCount
-
+  partialCount = partialCount === 0 ? parseInt(waveSampleCount / 4) : partialCount
   console.log('Building wavetable file ' + fileName)
   console.time()
-  const keyFrames = generateKeyframes(numKeyFrames, tableWaveCount, partialCount)
-  const linAmpMap = generateLinearPartialAmpMap(keyFrames, tableWaveCount, partialCount)
-  const table = generateTable(linAmpMap, tableWaveCount, waveSampleCount)
-  //console.log(table)
-  writeSerumWavetableFile(table, fileName, waveSampleCount)
+
+  const ampKeyFrames = generateKeyframes(numKeyFrames, tableWaveCount, partialCount)
+  const ampMap = generateLinearMap(tableWaveCount, partialCount, ampKeyFrames)
+
+  const phaseKeyFrames = generateKeyframes(numKeyFrames, tableWaveCount, partialCount)
+  const phaseMap = generateLinearMap(tableWaveCount, partialCount, phaseKeyFrames)
+
+  const tableData = generateTable({ ampMap, phaseMap, tableWaveCount, waveSampleCount })
+  // console.log(tableData)
+  writeSerumWavetableFile({ tableData, fileName })
   console.timeLog()
 }
 
@@ -23,5 +31,5 @@ export default function() {
   const waveSampleCount = 2048
   const tableWaveCount = 256
   const partialCount = waveSampleCount / 4
-  R.times(i => synthesizeWaveTable({ fileName: 'random-spectral-3-' + i }), 40)
+  R.times(i => synthesizeWaveTable({ fileName: 'random-spectral-6-' + i }), 1)
 }

@@ -11,3 +11,5 @@ const generateKeyframes = (number, wCount, pCount) => {
     number + 1
   )
 }
+
+export default generateKeyframes
