@@ -31,5 +31,5 @@ export default function() {
   const waveSampleCount = 2048
   const tableWaveCount = 256
   const partialCount = waveSampleCount / 4
-  R.times(i => synthesizeWaveTable({ fileName: 'random-spectral-6-' + i }), 1)
+  R.times(i => synthesizeWaveTable({ fileName: 'random-spectral-6-' + i }), 40)
 }
