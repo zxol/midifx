@@ -4,7 +4,9 @@ import * as RA from 'ramda-adjunct'
 import normalize from '../utils/normalize'
 import fsin from '../utils/fastsine'
 
-const generateTable = ({ ampMap, phaseMap, tableWaveCount, waveSampleCount }) => {
+import fft from './fft/fft'
+
+const generateTable2 = ({ ampMap, phaseMap, tableWaveCount, waveSampleCount }) => {
   console.log({ tableWaveCount, waveSampleCount })
   return R.times(w => {
     console.log('Wave ' + w + ' started.')
@@ -21,6 +23,14 @@ const generateTable = ({ ampMap, phaseMap, tableWaveCount, waveSampleCount }) =>
         )
       }, waveSampleCount)
     )
+  }, tableWaveCount)
+}
+
+const generateTable = ({ ampMap, phaseMap, tableWaveCount, waveSampleCount }) => {
+  console.log({ tableWaveCount, waveSampleCount })
+  return R.times(w => {
+    console.log('Wave ' + w + ' started.')
+    return normalize(fft(ampMap[w], waveSampleCount))
   }, tableWaveCount)
 }
 
