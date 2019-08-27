@@ -1,6 +1,6 @@
 import R from 'ramda'
 
-const linearShaping = (keyframes, slope) => {
+const linearShaping = (slope, keyframes) => {
   return keyframes.map(frame => {
     const wavePartialCount = frame.partials.length
     frame.partials = frame.partials.map((a, i) => {
@@ -12,4 +12,4 @@ const linearShaping = (keyframes, slope) => {
     return frame
   })
 }
-export default linearShaping
+export default R.curry(linearShaping)

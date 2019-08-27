@@ -6,18 +6,18 @@ import writeSerumWavetableFile from './writewavfile'
 
 import muteRandom from './keyframes/muteRandom'
 import generateLinearMap from './map'
-import R from 'ramda'
+import { times } from 'ramda'
 
 import { job, start, stop } from 'microjob'
 
 export default async () => {
-  const numberOfFiles = 40
+  const numberOfFiles = 4
   try {
     // start the worker pool
     await start({ maxWorkers: 10 })
 
     const data = await Promise.all(
-      R.times(
+      times(
         async i =>
           job(async () => {
             const synthesizeWaveTable = function({
@@ -37,16 +37,23 @@ export default async () => {
               const removeFundamental = require('../../../build/tablesynth/keyframes/removeFundamental')
                 .default
               const generateLinearMap = require('../../../build/tablesynth/map').default
+              const pipe = require('ramda').pipe
 
               partialCount = partialCount === 0 ? parseInt(waveSampleCount / 1) : partialCount
-              console.log('Building wavetable file ' + fileName)
 
-              const ampKeyFrames = removeFundamental(
-                muteRandom(
-                  expoShaping(generateKeyframes(numKeyFrames, tableWaveCount, partialCount), 2),
-                  0.7
-                )
-              )
+              // const ampKeyFrames = removeFundamental(
+              //   muteRandom(
+              //     expoShaping(generateKeyframes(numKeyFrames, tableWaveCount, partialCount), 2),
+              //     0.7
+              //   )
+              // )
+              const ampKeyFrames = pipe(
+                generateKeyframes,
+                expoShaping(2),
+                muteRandom(0.7),
+                removeFundamental
+              )(numKeyFrames, tableWaveCount, partialCount)
+
               const ampMap = generateLinearMap(tableWaveCount, partialCount, ampKeyFrames)
 
               const phaseKeyFrames = generateKeyframes(numKeyFrames, tableWaveCount, partialCount)
@@ -63,7 +70,7 @@ export default async () => {
     )
 
     data.map((tableData, index) =>
-      writeSerumWavetableFile({ tableData, fileName: 'big-booty' + index })
+      writeSerumWavetableFile({ tableData, fileName: 'big-heaven' + index })
     )
 
     // console.log(data) // 1000000

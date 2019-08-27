@@ -1,6 +1,6 @@
 import R from 'ramda'
 
-const expoShaping = (keyframes, slope) => {
+const expoShaping = (slope, keyframes) => {
   return keyframes.map(frame => {
     const wavePartialCount = frame.partials.length
     frame.partials = frame.partials.map((a, i) => {
@@ -10,4 +10,4 @@ const expoShaping = (keyframes, slope) => {
     return frame
   })
 }
-export default expoShaping
+export default R.curry(expoShaping)

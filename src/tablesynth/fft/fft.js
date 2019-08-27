@@ -1,29 +1,28 @@
 import { ifft } from 'fft-js'
-import R from 'ramda'
+import { times, pipe, head, map, multiply, negate, pair, nthArg } from 'ramda'
+import { zeroArray, filterI } from '../../utils/array'
+import { isEven } from 'ramda-adjunct'
 
-const preparePhasor = (partials, numSamples) => {
-  const numPartials = partials.length
-  return R.times(i => {
-    if (i === 0) return [0, 0]
-    if (i <= numPartials) {
-      return [0, partials[i - 1] * numSamples * -2]
-    }
-    // const start = numSamples * 2 - numPartials - 1
-    // if (i > start) {
-    //   return [0, partials[numPartials - (i - start)] * numSamples * 1]
-    // }
-    return [0, 0]
-  }, numSamples * 2)
-}
+const preparePhasor = (partials, numSamples) => [
+  0,
+  ...partials.map(multiply(-2 * numSamples)),
+  ...zeroArray(2 * numSamples - partials.length - 1)
+]
 
-const getSig = arr => arr.filter((v, i) => i % 2 === 0).map(v => v[0])
+const formatForIfft = map(pair(0))
 
-// const myPhasor = preparePhasor([1, 1], 16)
-// console.log(myPhasor)
-// // console.log()
-// console.log(ifft(myPhasor))
-// console.log(getSig(ifft(myPhasor)))
-//
-export default function(partials, sampleCount) {
-  return getSig(ifft(preparePhasor(partials, sampleCount)))
-}
+const isEvenIndex = pipe(
+  nthArg(1),
+  isEven
+)
+const formatForWave = pipe(
+  filterI(isEvenIndex),
+  map(head)
+)
+
+export default pipe(
+  preparePhasor,
+  formatForIfft,
+  ifft,
+  formatForWave
+)
