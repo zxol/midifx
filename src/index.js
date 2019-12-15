@@ -15,15 +15,18 @@
 // second()
 // first()
 
-// import synth from './tablesynth/synth'
-//
-// synth()
+// import go from './scenes/011GoldenRatio'
+// go()
+
+import synth from './tablesynth/synthtestone'
+
+synth()
 
 // import R from 'ramda'
 //
 // console.log(R.pair(0)(32))
 // console.log(R.times(0, 5))
 
-import * as ar from './utils/array'
-
-console.log(ar.mapSkip((a, i) => i, 4, ar.zeroArray(40)))
+// import * as ar from './utils/array'
+//
+// console.log(ar.mapSkip((a, i) => i, 4, ar.zeroArray(40)))

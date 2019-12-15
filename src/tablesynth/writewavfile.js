@@ -15,7 +15,8 @@ const writeSerumWavetableFile = function({ tableData, fileName = 'test' }) {
   outFileBufferArray[0].writeInt32LE(length - outFileBufferArray[0].length, 132)
   !fs.existsSync(`./waves`) && fs.mkdirSync(`./waves`)
   fs.writeFile(`./waves/${fileName}.wav`, Buffer.concat(outFileBufferArray), function(e) {
-    e && console.error(e)
+    if (e) throw e
+    else console.log(`${fileName}.wav written.`)
   })
 }
 

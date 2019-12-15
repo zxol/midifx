@@ -5,5 +5,7 @@ export const filterI = addIndex(filter)
 export const mapI = addIndex(map)
 export const mapSkip = (f, skip, arr) =>
   mapI((x, i, a) => (i % skip === 0 ? f(x, i / skip, i, a) : x), arr)
+export const mapSkipOffset = (f, skip, offset, arr) =>
+  mapI((x, i, a) => (i >= offset && (i - offset) % skip === 0 ? f(x, i / skip, i, a) : x), arr)
 
 export default zeroArray

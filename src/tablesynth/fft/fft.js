@@ -1,15 +1,14 @@
 import { ifft } from 'fft-js'
-import { times, pipe, head, map, multiply, negate, pair, nthArg } from 'ramda'
+import { times, pipe, head, map, multiply, negate, pair, nthArg, zip, last } from 'ramda'
 import { zeroArray, filterI } from '../../utils/array'
 import { isEven } from 'ramda-adjunct'
 
-const preparePhasor = (partials, numSamples) => [
-  0,
-  ...partials.map(multiply(-2 * numSamples)),
-  ...zeroArray(2 * numSamples - partials.length - 1)
+const preparePhasor = (amps, phases, numSamples) => [
+  [0, ...amps.map(multiply(-2 * numSamples)), ...zeroArray(2 * numSamples - amps.length - 1)],
+  [0, ...phases.map(multiply(-2 * numSamples)), ...zeroArray(2 * numSamples - phases.length - 1)]
 ]
 
-const formatForIfft = map(pair(0))
+const formatForIfft = x => zip(head(x), last(x))
 
 const isEvenIndex = pipe(
   nthArg(1),

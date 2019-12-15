@@ -1,6 +1,6 @@
-import { times, head, last, filter } from 'ramda'
+import { times, head, last, filter, always } from 'ramda'
 
-const generateLinearMap = (wCount, pCount, keyframes) => {
+export const generateLinearMap = (wCount, pCount, keyframes) => {
   return times(w => {
     const lps = last(filter(f => f.pos <= w, keyframes))
     const rps = head(filter(f => f.pos >= w, keyframes))
@@ -12,6 +12,10 @@ const generateLinearMap = (wCount, pCount, keyframes) => {
       return la + (ra - la) * pos
     }, pCount)
   }, wCount)
+}
+
+export const generateZeroMap = (wCount, pCount) => {
+  return times(always(times(always(0), pCount)), wCount)
 }
 
 export default generateLinearMap
